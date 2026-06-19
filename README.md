@@ -2,15 +2,14 @@
 An implementation of udp-based echo server and client
 
 # How To run:
-# First you need to compile and run server.cpp:
+# First you need to compile client.cpp and server.cpp, and run the server:
   1. Open a terminal in a Linux-based OS.
-  2. compile server.cpp file using the command: g++ server.cpp -lpthread -o s.out
-  3. now run the server using the command: ./s.out 8000
+  2. Compile both files using the command: make
+  3. Now run the server using the command: ./server 8000
 
 # Now you need to compile and run client.cpp
   4. Open another terminal in linux OS.
-  5. Compile client.cpp file using the command: g++ client.cpp -o c.out
-  6. Now run the client using the command: ./c.out 127.0.0.1 8000
+  5. Now run the client using the command: ./client 127.0.0.1 8000
 
 # Some Clarifications:
 1. In step 2, the argument 8000 is the port number on which the server will listen. You can pass any valid port number on which you want the server to listen. The server binds to all available ip addresses (INADDR_ANY).
