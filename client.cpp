@@ -14,54 +14,54 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  if (argc< 3)
-  {
-     cout<<"Please pass the ip adress and port number on which the server is listening."<<endl;
-     exit(-1);
-  }
-  
-  sockaddr_in server;
-  int sock_fd;
+	if (argc< 3)
+	{
+		cout<<"Please pass the ip adress and port number on which the server is listening."<<endl;
+		exit(-1);
+	}
 
-  if ((sock_fd= socket(AF_INET, SOCK_DGRAM, 0))==-1)
-  {
-     perror("socket: ");
-     exit(-1);
-  }
+	sockaddr_in server;
+	int sock_fd;
 
-  server.sin_family= AF_INET;
-  server.sin_port= htons(atoi(argv[2]));
-  server.sin_addr.s_addr= inet_addr(argv[1]);;
-  bzero(&server.sin_zero, 8);
-  
-  char messageBuffer[MAX_STRING_LENGTH+1]="";
-  char serverReply[MAX_STRING_LENGTH+1]="";
-  int len=0;
+	if ((sock_fd= socket(AF_INET, SOCK_DGRAM, 0))==-1)
+	{
+		perror("socket: ");
+		exit(-1);
+	}
 
-  while (true)
-  { 
-     cout<<"Please enter the input to send to the server: "<<endl;
-     cin.getline(messageBuffer, MAX_STRING_LENGTH);
+	server.sin_family= AF_INET;
+	server.sin_port= htons(atoi(argv[2]));
+	server.sin_addr.s_addr= inet_addr(argv[1]);;
+	bzero(&server.sin_zero, 8);
 
-     if (strcmp(messageBuffer, "exit")==0)
-      break;
-    
-     if (sendto(sock_fd, (void*) messageBuffer, (size_t) strlen(messageBuffer)+1, 0, (sockaddr *) &server, sizeof(server))==-1)
-     {
-      perror("sendto: ");
-      continue;
-     } 
+	char messageBuffer[MAX_STRING_LENGTH+1]="";
+	char serverReply[MAX_STRING_LENGTH+1]="";
+	int len=0;
 
-     if (recvfrom(sock_fd, (void*) serverReply, (size_t) (MAX_STRING_LENGTH+1), MSG_WAITALL, (sockaddr *) &server, (socklen_t*) &len)==-1)
-     {
-      perror("recvfrom:");
-      continue;
-     }
- 
-     cout<<"The server sent: "<<serverReply<<endl<<endl;
+	while (true)
+	{ 
+		cout<<"Please enter the input to send to the server: "<<endl;
+		cin.getline(messageBuffer, MAX_STRING_LENGTH);
 
-  }//end of while loop
+		if (strcmp(messageBuffer, "exit")==0)
+		break;
 
-  close(sock_fd);
-  exit(0);
+		if (sendto(sock_fd, (void*) messageBuffer, (size_t) strlen(messageBuffer)+1, 0, (sockaddr *) &server, sizeof(server))==-1)
+		{
+			perror("sendto: ");
+			continue;
+		} 
+
+		if (recvfrom(sock_fd, (void*) serverReply, (size_t) (MAX_STRING_LENGTH+1), MSG_WAITALL, (sockaddr *) &server, (socklen_t*) &len)==-1)
+		{
+			perror("recvfrom:");
+			continue;
+		}
+
+		cout<<"The server sent: "<<serverReply<<endl<<endl;
+
+	}
+
+	close(sock_fd);
+	exit(0);
 }
