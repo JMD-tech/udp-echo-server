@@ -1,4 +1,6 @@
 
+CXXFLAGS+=-Wall
+
 default: all
 
 all: client server
