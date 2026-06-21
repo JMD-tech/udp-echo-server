@@ -2,6 +2,10 @@
 An implementation of udp-based echo server and client.  
 Basically [Saad Farooq's implementation](https://github.com/BigWheel92/udp-echo-server), with added name resolution and IPv6 support.
 
+# Security disclaimer
+Be sure to use only on local private network, or for public network to filter allowed source IPs or only temporary use, 
+a publicly accessible UDP echo server could easily be used as a DDOS relay with spoofed source datagrams.
+
 # How To run:
 # First you need to compile client.cpp and server.cpp, and run the server:
   1. Open a terminal in a Linux-based OS.
