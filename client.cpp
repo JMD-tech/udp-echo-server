@@ -36,7 +36,7 @@ host_address lookup_host (const char *host, char force_ipversion = 0)
 	errcode = getaddrinfo (host, NULL, &hints, &result);
 	if (errcode != 0)
 	{
-		perror("getaddrinfo: ");
+		perror("getaddrinfo");
 		return selected;
 	}
 
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
 	if ((sock_fd = socket(selected_addr.ai_family, SOCK_DGRAM, 0)) == -1)
 	{
-		perror("socket: ");
+		perror("socket");
 		exit(-1);
 	}
 
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 		server.in6.sin6_port = htons(atoi(argv[2]));
 		if (inet_pton(AF_INET6, selected_addr.address.c_str(), &server.in6.sin6_addr) <= 0)
 		{
-			perror("inet_pton: ");
+			perror("inet_pton");
 			exit(-1);
 		}
 	}
@@ -137,13 +137,13 @@ int main(int argc, char *argv[])
 
 		if (sendto(sock_fd, (void*) messageBuffer, (size_t) strlen(messageBuffer)+1, 0, (sockaddr *) &server, sizeof(server))==-1)
 		{
-			perror("sendto: ");
+			perror("sendto");
 			continue;
 		}
 
 		if (recvfrom(sock_fd, (void*) serverReply, (size_t) (MAX_STRING_LENGTH+1), MSG_WAITALL, (sockaddr *) &server, (socklen_t*) &len)==-1)
 		{
-			perror("recvfrom: ");
+			perror("recvfrom");
 			continue;
 		}
 

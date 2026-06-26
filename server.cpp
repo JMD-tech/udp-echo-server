@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	int tid=0;
 	if (pthread_create((pthread_t*) &tid, NULL, terminatorThread, NULL) == -1)
 	{
-		perror("pthread_create: ");
+		perror("pthread_create");
 		exit(-1);
 	}
 
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 
 	if ((bind(sock_fd, (sockaddr*) &server, (socklen_t) sizeof(server))) == -1)
 	{
-		perror("bind:");
+		perror("bind");
 		exit(-1);
 	}
 
@@ -106,15 +106,15 @@ int main(int argc, char *argv[])
 		int len = sizeof(client);
 		if (recvfrom(sock_fd, (void*) messageBuffer, (size_t) (MAX_STRING_LENGTH+1), MSG_WAITALL, (sockaddr*) &client, (socklen_t*) &len) == -1)
 		{
-			perror("recvfrom:");
+			perror("recvfrom");
 			continue;
 		}
 
-		cout << "Data Received from client (" << inet_ntos_either(client) << "):  " << messageBuffer << endl << endl;
+		cout << "Data Received from client (" << inet_ntos_either(client) << "): " << messageBuffer << endl << endl;
 		 
 		if (sendto(sock_fd, (void*) messageBuffer, (size_t) strlen(messageBuffer)+1, 0, (sockaddr*) &client, (socklen_t) len) == -1)
 		{
-			perror("sendto: ");
+			perror("sendto");
 			continue;
 		}
 
