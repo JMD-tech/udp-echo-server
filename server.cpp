@@ -53,18 +53,31 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
 
-	bool ipv6 = false;
+	bool ipv6 = true;
 	if (argc>=3)
-		ipv6 = (strcmp(argv[2],"6") == 0);
+		ipv6 = (strcmp(argv[2],"4") != 0);
 
 	sockaddr_either server, client;
 	memset(&server, 0, sizeof(server));
 	memset(&client, 0, sizeof(client));
 
-	if ((sock_fd= socket(ipv6?AF_INET6:AF_INET, SOCK_DGRAM, 0)) == -1)
+	if (ipv6)
 	{
-		perror("socket: ");
-		exit(-1);
+		if ((sock_fd = socket(AF_INET6, SOCK_DGRAM, 0)) == -1)
+		{
+			perror("socket IPv6");
+			ipv6 = false;
+		}
+	}
+
+	// Try to fallback to IPv4 only if IPv6 not supported / disabled
+	if (!ipv6)
+	{
+		if ((sock_fd = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
+		{
+			perror("socket IPv4");
+			exit(-1);
+		}
 	}
 
 	if (ipv6)

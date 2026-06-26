@@ -4,19 +4,23 @@ Basically [Saad Farooq's implementation](https://github.com/BigWheel92/udp-echo-
 
 # Security disclaimer
 Be sure to use only on local private network, or for public network to filter allowed source IPs or only temporary use, 
-a publicly accessible UDP echo server could easily be used as a DDOS relay with spoofed source datagrams.
+a publicly accessible UDP echo server could be used as a DDoS relay with spoofed source datagrams.
 
 # How To run:
 # First you need to compile client.cpp and server.cpp, and run the server:
   1. Open a terminal in a Linux-based OS.
   2. Compile both files using the command: ```make```
   3. Now run the server using the command: ```./server 8000```
+  By default it starts in IPv6 mode which can respond to both IPv6 and IPv4 on the same port.  
+  You can add an optional 4 parameter at the end to start in IPv4 mode only but this is normally unnecessary, as default IPv6 mode handles both, and if IPv6 opening fails (like, if IPv6 is disabled in the OS), it fallbacks to IPv4-only mode.
 
 # Now you need to run client.cpp
   4. Open another terminal in linux OS.
   5. Now run the client using the command: ```./client localhost 8000```
   You can add an optional 4 or 6 parameter at the end to force use of IPv4 or IPv6: ```./client localhost 8000 6```  
-  Without it, either one which the hostname resolves to will be used, IPv4 by default if hostname resolves to both.  
+  Without it, either one which the hostname resolves to will be used, IPv6 by default if hostname resolves to both.  
+  Note that sometimes localhost won't resolve to IPv6 ::1, if you don't have it as IPv6 too in /etc/hosts.  
+  In this case, you should use (default on most Linux distros) ip6-localhost name instead.
 
 # Some Clarifications:
 1. In step 3, the argument 8000 is the port number on which the server will listen. You can pass any valid port number on which you want the server to listen. The server binds to all available ip addresses (INADDR_ANY).

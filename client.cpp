@@ -58,7 +58,7 @@ host_address lookup_host (const char *host, char force_ipversion = 0)
 		{
 			inet_ntop (res->ai_family, ptr, addrstr, MAX_STRING_LENGTH);
 
-			if (!selected.ai_family || ((res->ai_family == AF_INET) && (selected.ai_family == AF_INET6)))
+			if (!selected.ai_family || ((res->ai_family == AF_INET6) && (selected.ai_family == AF_INET)))
 			{
 				selected.ai_family = res->ai_family;
 				selected.address = addrstr;
